@@ -1,2 +1,2 @@
 # chamalab-BETA
-[https://github.com/maachamazz/chamalab-BETA.git](https://maachamazz.github.io/chamalab-BETA/)
+https://maachamazz.github.io/chamalab-BETA/
