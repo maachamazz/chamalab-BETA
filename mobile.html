@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAMA LAB (スマホ版)</title>
+<style>
+  html, body {
+    margin:0; padding:0; height:100%;
+    background:#04050a; overflow:hidden;
+    display:flex; align-items:center; justify-content:center;
+  }
+  #mobile-frame-wrap {
+    transform-origin:center center;
+    box-shadow:0 0 40px rgba(0,0,0,0.6);
+  }
+  #mobile-frame {
+    width:420px; height:900px; border:none; display:block;
+  }
+</style>
+</head>
+<body>
+  <div id="mobile-frame-wrap">
+    <iframe id="mobile-frame" src="mobile-inner.html"></iframe>
+  </div>
+  <script>
+    const MOBILE_WIDTH = 420;
+    const MOBILE_HEIGHT = 900;
+    function fit(){
+      const scale = Math.min(window.innerWidth / MOBILE_WIDTH, window.innerHeight / MOBILE_HEIGHT);
+      document.getElementById('mobile-frame-wrap').style.transform = 'scale(' + scale + ')';
+    }
+    window.addEventListener('resize', fit);
+    fit();
+  </script>
+</body>
+</html>
