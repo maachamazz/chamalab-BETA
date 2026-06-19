@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAMA LAB (スマホ版)</title>
+<style>
+  html, body {
+    margin:0; padding:0; height:100%;
+    background:#04050a; overflow:hidden;
+    display:flex; align-items:center; justify-content:center;
+  }
+  body.fill-mode { align-items:flex-start; justify-content:flex-start; }
+  #mobile-frame-wrap {
+    transform-origin:center center;
+    box-shadow:0 0 40px rgba(0,0,0,0.6);
+  }
+  body.fill-mode #mobile-frame-wrap { transform-origin:top left; }
+  #mobile-frame {
+    width:420px; border:none; display:block;
+  }
+</style>
+</head>
+<body>
+  <div id="mobile-frame-wrap">
+    <iframe id="mobile-frame" src="mobile-inner.html"></iframe>
+  </div>
+  <script>
+    const DESIGN_WIDTH = 420;
+    const DESIGN_HEIGHT = 900;
+    // この幅以下は実機スマホとみなし、機種ごとの画面サイズに合わせて自動フィットさせる
+    const FILL_BREAKPOINT = 768;
+
+    function fit(){
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const wrap = document.getElementById('mobile-frame-wrap');
+      const frame = document.getElementById('mobile-frame');
+      const isPhone = vw <= FILL_BREAKPOINT;
+      document.body.classList.toggle('fill-mode', isPhone);
+
+      if (isPhone) {
+        // 実機スマホ: 横幅を画面いっぱいにフィットさせ、縦は実際のビューポート高さ分だけ表示
+        // (ページ本体は420px幅デザインのまま、機種ごとのサイズ差は scale で吸収される)
+        const scale = vw / DESIGN_WIDTH;
+        frame.style.height = (vh / scale) + 'px';
+        wrap.style.transform = 'scale(' + scale + ')';
+      } else {
+        // PCでのプレビュー表示: 従来通りアスペクト比を保って中央に縮小表示
+        const scale = Math.min(vw / DESIGN_WIDTH, vh / DESIGN_HEIGHT);
+        frame.style.height = DESIGN_HEIGHT + 'px';
+        wrap.style.transform = 'scale(' + scale + ')';
+      }
+    }
+    window.addEventListener('resize', fit);
+    window.addEventListener('orientationchange', () => setTimeout(fit, 200));
+    fit();
+  </script>
+</body>
+</html>
